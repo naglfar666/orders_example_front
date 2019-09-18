@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div>
+      <div v-if="ORDER.meta.last_page > 1">
         <label class="uk-form-label" for="form-stacked-select">Page</label>
         <div class="uk-form-controls">
           <select class="uk-select" v-model="filter.page">
@@ -62,9 +62,10 @@
             <td>{{ order.id }}</td>
             <td>{{ order.user_name }} {{ order.user_surname }}</td>
             <td>{{ order.product_title }}</td>
-            <td>{{ order.price }}</td>
+            <td>{{ order.price }}$</td>
             <td>{{ order.discount }}</td>
             <td>{{ order.quantity }}</td>
+            <td>{{ $moment(order.date_add * 1000).format('YYYY.MM.DD h:mm:ss A') }}</td>
             <td>
               <button class="uk-button uk-button-primary" type="button" @click="$router.push('/orders/single/' + order.id)">
                 Edit
@@ -87,7 +88,7 @@ import Table from '@/components/Table.vue';
 export default {
   data() {
     return {
-      head: ['#', 'User', 'Product', 'Sum', 'Discount', 'Quantity', 'Actions'],
+      head: ['#', 'User', 'Product', 'Sum', 'Discount', 'Quantity', 'Date', 'Actions'],
       loading: true,
       filterLoading: true,
       filter: {
@@ -118,9 +119,9 @@ export default {
     'filter.user': function (val) {
       const query = Object.assign({}, this.$route.query);
       if (val === 0) {
-        delete query.user_id;
+        delete query.filterUser;
       } else {
-        query.user_id = val;
+        query.filterUser = val;
       }
       this.$router.replace({ query });
       this.getOrders();
@@ -128,9 +129,9 @@ export default {
     'filter.product': function (val) {
       const query = Object.assign({}, this.$route.query);
       if (val === 0) {
-        delete query.product_id;
+        delete query.filterProduct;
       } else {
-        query.product_id = val;
+        query.filterProduct = val;
       }
       this.$router.replace({ query });
       this.getOrders();

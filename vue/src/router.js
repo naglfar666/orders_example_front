@@ -32,5 +32,25 @@ export default new Router({
       name: 'AddUser',
       component: () => import('./views/SingleUser.vue'),
     },
+    {
+      path: '/orders/single/:id',
+      name: 'SingleOrder',
+      component: () => import('./views/SingleOrder.vue'),
+    },
+    {
+      path: '/orders/add',
+      name: 'AddOrder',
+      component: () => import('./views/SingleOrder.vue'),
+    },
+    {
+      path: '/products/single/:id',
+      name: 'SingleProduct',
+      component: () => import('./views/SingleProduct.vue'),
+    },
+    {
+      path: '/products/add',
+      name: 'AddProduct',
+      component: () => import('./views/SingleProduct.vue'),
+    },
   ],
 });

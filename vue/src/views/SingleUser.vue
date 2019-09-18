@@ -2,10 +2,12 @@
   <div>
     <h1 class="uk-heading-medium">{{ title }}</h1>
     <div v-if="!loading">
-      <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-select">Surname</label>
+      <div class="uk-form-controls">
         <input class="uk-input uk-form-width-large" type="text" placeholder="Surname" v-model="input.surname">
       </div>
-      <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-select">Name</label>
+      <div class="uk-form-controls">
         <input class="uk-input uk-form-width-large" type="text" placeholder="Name" v-model="input.name">
       </div>
       <button class="uk-button uk-button-primary uk-margin-small-bottom" @click="save">Save</button>

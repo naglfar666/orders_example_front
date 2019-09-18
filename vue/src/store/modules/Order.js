@@ -9,6 +9,7 @@ const state = {
   single: {},
   meta: {
     pages: [],
+    last_page: 1,
   },
 };
 
@@ -20,11 +21,12 @@ const mutations = {
   SET_LIST: (state, values) => {
     state.list = values.data.data;
     state.meta.pages = [];
-    if (--values.data.last_page > 1) {
+    if (parseInt(values.data.last_page, 10) > 1) {
       for (let i = 0; i < values.data.last_page; i++) {
         state.meta.pages.push(i + 1);
       }
     }
+    state.meta.last_page = values.data.last_page;
   },
   SET_SINGLE_ORDER: (state, values) => {
     state.single = values.data;
