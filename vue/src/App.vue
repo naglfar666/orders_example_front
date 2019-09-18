@@ -39,10 +39,10 @@ export default {
   },
   methods: {
     checkRoute() {
-      const val = this.$route.path;
-      if (val.indexOf('orders') === -1 && val.indexOf('products') === -1 && val.indexOf('users') === -1) {
-        this.$router.push('/orders');
-      }
+      // const val = this.$route.path;
+      // if (val.indexOf('orders') === -1 && val.indexOf('products') === -1 && val.indexOf('users') === -1) {
+      //   this.$router.push('/orders');
+      // }
     },
   },
 };

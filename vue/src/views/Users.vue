@@ -45,7 +45,6 @@ export default {
   methods: {
     ...mapActions({
       getUsersList: 'User/GET_USERS_LIST',
-      getSingleUser: 'User/GET_SINGLE_USER',
       removeUser: 'User/REMOVE_USER',
     }),
     async getUsers() {
@@ -53,15 +52,15 @@ export default {
       await this.getUsersList();
       this.loading = false;
     },
-    showRemover (id) {
+    showRemover(id) {
       UIkit.modal.confirm('Remove confirmation').then(async () => {
-        let response = await this.removeUser(id);
+        const response = await this.removeUser(id);
         if (response.type === 'success') {
           UIkit.notification({
-            message: 'User # ' + id + ' was removed',
+            message: `User # ${id} was removed`,
             status: 'success',
             pos: 'bottom-right',
-            timeout: 5000
+            timeout: 5000,
           });
         }
         this.getUsers();
@@ -70,10 +69,10 @@ export default {
           message: 'Removing rejected',
           status: 'success',
           pos: 'bottom-right',
-          timeout: 5000
+          timeout: 5000,
         });
       });
-    }
+    },
   },
   components: {
     'v-table': Table,

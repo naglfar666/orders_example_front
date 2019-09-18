@@ -18,31 +18,31 @@ import UIkit from 'uikit';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       title: '',
       input: {
         surname: '',
         name: '',
-      }
-    }
+      },
+    };
   },
   computed: {
     ...mapGetters({
       USER: 'User/STATE',
     }),
   },
-  async created () {
-    if (this.$route.params.id) { 
+  async created() {
+    if (this.$route.params.id) {
       this.loading = true;
       await this.getSingleUser(this.$route.params.id);
-      this.$set(this.input,'surname',this.USER.single.surname);
-      this.$set(this.input,'name',this.USER.single.name);
-      this.title = 'Edit user # ' + this.$route.params.id + ' ' + this.USER.single.name + ' ' + this.USER.single.surname;
+      this.$set(this.input, 'surname', this.USER.single.surname);
+      this.$set(this.input, 'name', this.USER.single.name);
+      this.title = `Edit user # ${this.$route.params.id} ${this.USER.single.name} ${this.USER.single.surname}`;
       this.loading = false;
     } else {
-      this.title = 'Create new user'
+      this.title = 'Create new user';
     }
   },
   methods: {
@@ -51,44 +51,44 @@ export default {
       updateUser: 'User/UPDATE_USER',
       createUser: 'User/CREATE_USER',
     }),
-    async save () {
+    async save() {
       if (this.$route.params.id) {
-        let response = await this.updateUser({
+        const response = await this.updateUser({
           id: this.$route.params.id,
-          ...this.input
+          ...this.input,
         });
         if (response.type === 'success') {
           this.$router.push('/users');
         } else {
           let resultError = '';
-          for (let i in response.errors) {
-            resultError += response.errors[i][0] + ' ';
+          for (const i in response.errors) {
+            resultError += `${response.errors[i][0]} `;
           }
           UIkit.notification({
             message: resultError,
             status: 'danger',
             pos: 'bottom-right',
-            timeout: 5000
+            timeout: 5000,
           });
         }
       } else {
-        let response = await this.createUser(this.input);
+        const response = await this.createUser(this.input);
         if (response.type === 'success') {
           this.$router.push('/users');
         } else {
           let resultError = '';
-          for (let i in response.errors) {
-            resultError += response.errors[i][0] + ' ';
+          for (const i in response.errors) {
+            resultError += `${response.errors[i][0]} `;
           }
           UIkit.notification({
             message: resultError,
             status: 'danger',
             pos: 'bottom-right',
-            timeout: 5000
+            timeout: 5000,
           });
         }
-      } 
-    }
+      }
+    },
   },
 };
 </script>

@@ -1,11 +1,15 @@
 import api from '@/api';
 
-const name = 'User';
+const name = 'Order';
 
 const namespaced = true;
 
 const state = {
-  values: [],
+  list: [],
+  single: {},
+  meta: {
+    pages: [],
+  },
 };
 
 const getters = {
@@ -13,16 +17,32 @@ const getters = {
 };
 
 const mutations = {
-  SET_VALUES: (state, values) => {
-    state[values.type] = values.data;
+  SET_LIST: (state, values) => {
+    state.list = values.data.data;
+    state.meta.pages = [];
+    if (--values.data.last_page > 1) {
+      for (let i = 0; i < values.data.last_page; i++) {
+        state.meta.pages.push(i + 1);
+      }
+    }
+  },
+  SET_SINGLE_ORDER: (state, values) => {
+    state.single = values.data;
   },
 };
 
 const actions = {
-  SIGNIN: async (context, payload) => {
-    const data = await api.Admin.signin(payload);
-    return data;
+  GET_ORDERS_LIST: async (context, payload) => {
+    const data = await api.Order.list(payload);
+    context.commit('SET_LIST', data);
   },
+  GET_SINGLE_ORDER: async (context, payload) => {
+    const data = await api.Order.single(payload);
+    context.commit('SET_SINGLE_ORDER', data);
+  },
+  UPDATE_ORDER: async (context, payload) => await api.Order.edit(payload),
+  CREATE_ORDER: async (context, payload) => await api.Order.add(payload),
+  REMOVE_ORDER: async (context, payload) => await api.Order.delete(payload),
 };
 
 export default {
@@ -30,5 +50,6 @@ export default {
   namespaced,
   state,
   getters,
+  mutations,
   actions,
 };

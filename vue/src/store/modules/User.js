@@ -18,28 +18,22 @@ const mutations = {
     state.list = values.data;
   },
   SET_SINGLE_USER: (state, values) => {
-    state.single = values.data
+    state.single = values.data;
   },
 };
 
 const actions = {
   GET_USERS_LIST: async (context) => {
-    let data = await api.User.list();
+    const data = await api.User.list();
     context.commit('SET_LIST', data);
   },
   GET_SINGLE_USER: async (context, payload) => {
-    let data = await api.User.single(payload);
+    const data = await api.User.single(payload);
     context.commit('SET_SINGLE_USER', data);
   },
-  UPDATE_USER: async (context, payload) => {
-    return await api.User.edit(payload);
-  },
-  CREATE_USER: async (context, payload) => {
-    return await api.User.add(payload);
-  },
-  REMOVE_USER: async (context, payload) => {
-    return await api.User.delete(payload);
-  },
+  UPDATE_USER: async (context, payload) => await api.User.edit(payload),
+  CREATE_USER: async (context, payload) => await api.User.add(payload),
+  REMOVE_USER: async (context, payload) => await api.User.delete(payload),
 };
 
 export default {

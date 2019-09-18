@@ -5,7 +5,7 @@ const client = axios.create({
   baseURL: `${CONFIG[process.env.NODE_ENV].BACKEND_ADDRESS}api/`,
   json: true,
 });
-
+/* eslint-disable */
 export default {
   async execute(method, resource, data, headers = {}) {
     return client({
@@ -17,13 +17,35 @@ export default {
     }).then(
       response => response.data,
       (error) => {
-        // eslint-disable-next-line
-        console.log(`Error on ${resource} | status: ${error.request.status}`);
+        try {
+            let data = JSON.parse(error.request.response);
+            return data;
+        } catch (e) {
+            return e
+        }
+        
       },
     );
   },
-  // Авторизация
-  signin(values) {
-    return this.execute('post', '/v1/admin/signin', (values), {});
+  // Get list of products
+  list () {
+    return this.execute('get', '/product/list', {});
+  },
+  // Get single product's info
+  single (id) {
+    return this.execute('get', '/product/single/' + id, {});
+  },
+  // Edit product
+  edit (values) {
+    return this.execute('post', '/product/edit', (values), {})
+  },
+  // Create new product
+  add (values) {
+    return this.execute('post', '/product/add', (values), {})
+  },
+  // Removing product
+  delete (id) {
+    return this.execute('get', '/product/delete/' + id, {});
   },
 };
+/* eslint-disable */
