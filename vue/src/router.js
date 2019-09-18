@@ -9,18 +9,28 @@ export default new Router({
   routes: [
     {
       path: '/orders',
-      name: 'orders',
+      name: 'Orders',
       component: () => import('./views/Orders.vue'),
     },
     {
       path: '/products',
-      name: 'products',
+      name: 'Products',
       component: () => import('./views/Products.vue'),
     },
     {
       path: '/users',
-      name: 'users',
+      name: 'Users',
       component: () => import('./views/Users.vue'),
+    },
+    {
+      path: '/users/single/:id',
+      name: 'SingleUser',
+      component: () => import('./views/SingleUser.vue'),
+    },
+    {
+      path: '/users/add',
+      name: 'AddUser',
+      component: () => import('./views/SingleUser.vue'),
     },
   ],
 });
