@@ -19,7 +19,7 @@
         <div class="uk-form-controls">
           <select class="uk-select" v-model="filter.user">
             <option :value="0">None</option>
-            <option 
+            <option
               v-for="user in USER.list"
               :key="user.id + '_user'"
               :value="user.id"
@@ -33,7 +33,7 @@
         <div class="uk-form-controls">
           <select class="uk-select" v-model="filter.product">
             <option :value="0">None</option>
-            <option 
+            <option
               v-for="product in PRODUCT.list"
               :key="product.id + '_product'"
               :value="product.id"
@@ -46,7 +46,7 @@
         <label class="uk-form-label" for="form-stacked-select">Page</label>
         <div class="uk-form-controls">
           <select class="uk-select" v-model="filter.page">
-            <option 
+            <option
               v-for="page in ORDER.meta.pages"
               :key="page + '_page'"
               :value="page"
@@ -54,7 +54,7 @@
           </select>
         </div>
       </div>
-      
+
     </div>
     <v-table :head="head" v-if="!loading">
       <template #body>
@@ -100,7 +100,7 @@ export default {
   },
   watch: {
     'filter.period': function (val) {
-      let query = Object.assign({}, this.$route.query)
+      const query = Object.assign({}, this.$route.query);
       switch (val) {
         case 1:
           query.filterDate = 'day';
@@ -116,32 +116,31 @@ export default {
       this.getOrders();
     },
     'filter.user': function (val) {
-      let query = Object.assign({}, this.$route.query)
+      const query = Object.assign({}, this.$route.query);
       if (val === 0) {
         delete query.user_id;
       } else {
-        query.user_id = val
+        query.user_id = val;
       }
       this.$router.replace({ query });
       this.getOrders();
     },
     'filter.product': function (val) {
-      let query = Object.assign({}, this.$route.query)
+      const query = Object.assign({}, this.$route.query);
       if (val === 0) {
         delete query.product_id;
       } else {
-        query.product_id = val
+        query.product_id = val;
       }
       this.$router.replace({ query });
       this.getOrders();
     },
     'filter.page': function (val) {
-      console.log(val)
-      let query = Object.assign({}, this.$route.query)
+      const query = Object.assign({}, this.$route.query);
       if (val === 1) {
         delete query.page;
       } else {
-        query.page = val
+        query.page = val;
       }
       this.$router.replace({ query });
       this.getOrders();
@@ -151,7 +150,7 @@ export default {
     ...mapGetters({
       ORDER: 'Order/STATE',
       USER: 'User/STATE',
-      PRODUCT: 'Product/STATE'
+      PRODUCT: 'Product/STATE',
     }),
   },
   async created() {
@@ -200,18 +199,18 @@ export default {
       });
     },
     buildQueryString() {
-      let result = [];
-      for (let i in this.$route.query) {
-        result.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.$route.query[i]));
+      const result = [];
+      for (const i in this.$route.query) {
+        result.push(`${encodeURIComponent(i)}=${encodeURIComponent(this.$route.query[i])}`);
       }
-      return '?' + result.join('&');
+      return `?${result.join('&')}`;
     },
     prefillFilters() {
-      if (this.$route.query.filterDate == 'day') this.filter.period = 1;
-      if (this.$route.query.filterDate == 'week') this.filter.period = 2;
-      if (this.$route.query.user_id) this.filter.user = parseInt(this.$route.query.user_id);
-      if (this.$route.query.product_id) this.filter.product = parseInt(this.$route.query.product_id);
-    }
+      if (this.$route.query.filterDate === 'day') this.filter.period = 1;
+      if (this.$route.query.filterDate === 'week') this.filter.period = 2;
+      if (this.$route.query.user_id) this.filter.user = parseInt(this.$route.query.user_id, 10);
+      if (this.$route.query.product_id) this.filter.product = parseInt(this.$route.query.product_id, 10);
+    },
   },
   components: {
     'v-table': Table,
